@@ -1,0 +1,27 @@
+/* Navbar Style */
+.navbar {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #fff !important;
+}
+
+.nav-link {
+    color: #f1f1f1 !important;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ffd700 !important;
+}
+
+/* Footer Style */
+.footer {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: #fff;
+    padding: 20px 0;
+}
