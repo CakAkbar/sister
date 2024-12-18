@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Penyewaan Gedung</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Pembungkus Utama */
+    .main-container {
+    margin-bottom: 20px;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Card Styling */
+    .custom-card {
+      background-color: #fff;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      padding: 20px;
+    }
+
+    .custom-card-header {
+      background-color: #e3f2fd;
+      font-weight: bold;
+      border-radius: 15px 15px 0 0;
+      padding: 10px 15px;
+    }
+
+    .custom-card-body {
+      padding: 20px;
+    }
+
+    /* Galeri Foto */
+    .gallery img {
+      object-fit: cover;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .main-photo {
+      height: 400px;
+    }
+
+    /* Harga Card */
+    .price-card {
+      background-color: #f8f9fa;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .price-highlight {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .cta-button {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
+
+    .cta-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Notification Bar */
+    .notification-bar {
+      background-color: #e0f4ff;
+      color: #007bff;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .hero-section {
+        background: linear-gradient(to right, #6e8efb, #a777e3);
+        color: #fff;
+        text-align: center;
+        padding: 4px 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+<section class="hero-section">
+    <div class="container">
+        <h1>Gedung cakra detail</h1>
+    </div>
+</section>
+
+  <!-- Container Pembungkus Utama -->
+  <div class="container main-container">
+    
+    <!-- Card 1: Galeri Foto -->
+    <div class="custom-card">
+        <div class="custom-card-header">Galeri Foto</div>
+        <div class="custom-card-body">
+          <div class="row g-3 gallery">
+            <!-- Gambar Utama 800x400 -->
+            <div class="col-md-8 d-flex flex-column">
+              <img src="https://via.placeholder.com/800x400" alt="Gedung Utama" class="img-fluid main-photo">
+              <!-- Tambahkan Peta di Bawah Gambar Utama -->
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4007.303352114686!2d112.7244950351923!3d-7.130557721697795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd803dd04854303%3A0xa436f3258944c98f!2sGedung%20Cakra%20-%20UTM!5e0!3m2!1sid!2sid!4v1734486162871!5m2!1sid!2sid" 
+                width="100%" 
+                height="200" 
+                frameborder="0" 
+                style="border:0; border-radius:10px; margin-top:15px;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+            <!-- Kolom Samping 400x200 -->
+            <div class="col-md-4 d-flex flex-column gap-3">
+              <img src="https://via.placeholder.com/400x200" alt="Foto 1" class="img-fluid">
+              <img src="https://via.placeholder.com/400x200" alt="Foto 2" class="img-fluid">
+              <img src="https://via.placeholder.com/400x200" alt="Foto 3" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+  
+
+    <!-- Card 2: Informasi Penyewaan -->
+    <div class="custom-card">
+      <div class="custom-card-header">Detail Penyewaan Gedung</div>
+      <div class="custom-card-body">
+        <h5 class="mb-3">Gedung Serbaguna Cakra</h5>
+        <p>
+          Gedung ini cocok untuk seminar, rapat akademik, workshop, dan acara wisuda. Lokasi strategis dengan fasilitas lengkap seperti AC, proyektor, Wi-Fi, dan parkir luas.
+        </p>
+        <!-- Harga Card -->
+        <div class="price-card">
+          <div class="price-highlight">Rp 5.000.000</div>
+          <div class="text-muted">/ hari</div>
+          <a href="#" class="btn cta-button mt-3">Ajukan Penyewaan</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Fasilitas dan Lokasi -->
+    <div class="custom-card">
+      <div class="custom-card-header">Fasilitas dan Lokasi</div>
+      <div class="custom-card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Fasilitas Utama</h6>
+            <ul>
+              <li>AC dan WiFi Gratis</li>
+              <li>Proyektor dan Sound System</li>
+              <li>Kursi dan Meja Lengkap</li>
+              <li>Parkir Luas</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6>Lokasi</h6>
+            <p>Jalan Kampus Raya No. 123, Jakarta Selatan, Indonesia</p>
+            <p>Stasiun MRT Blok M - 2.3 km</p>
+            <p>Jakarta Convention Center - 1.66 km</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Bar -->
+    <div class="notification-bar">
+      Jangan Lewatkan! <span class="text-primary">Sisa 1 Gedung</span> untuk harga terbaik.
+    </div>
+    
+  </div>
+
+  <div id="footer-container"></div>
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('navbar-container').innerHTML = data);
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-container').innerHTML = data);
+    </script>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

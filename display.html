@@ -138,14 +138,7 @@
         font-weight: bold;
     }
 
-    .hero-btn {
-        background-color: #ffd700;
-        border: none;
-        color: #333;
-        font-weight: bold;
-        padding: 10px 20px;
-        transition: all 0.3s ease-in-out;
-    }
+
     </style>
   </head>
   <body>
@@ -245,6 +238,10 @@
             .then(data => document.getElementById('navbar-container').innerHTML = data);
 
         fetch('footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-container').innerHTML = data);
+
+        fetch('hero.html')
             .then(response => response.text())
             .then(data => document.getElementById('footer-container').innerHTML = data);
     </script>
