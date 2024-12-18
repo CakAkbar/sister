@@ -17,7 +17,7 @@ def register():
 
         if not username or not email or not password:
             flash("Semua field wajib diisi!", "error")
-            return redirect(url_for('register'))
+            return render_template('register.html')
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -25,7 +25,7 @@ def register():
         existing_user = cursor.fetchone()
         if existing_user:
             flash("Username atau Email sudah digunakan!", "error")
-            return redirect(url_for('register'))
+            return render_template('register.html')
 
         hashed_password = generate_password_hash(password)
         cursor.execute("INSERT INTO tb_users (username, email, password) VALUES (%s, %s, %s)",
@@ -33,8 +33,8 @@ def register():
         conn.commit()
         conn.close()
 
-        flash("Registrasi berhasil, silakan login!", "success")
-        return redirect(url_for('login'))
+        flash("Registrasi berhasil! Silakan login di tombol login sebelah kiri.", "success")
+        return render_template('register.html')
 
     return render_template('register.html')
 
