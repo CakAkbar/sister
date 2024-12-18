@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Pemesanan</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Header Full */
+    .page-header {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: #fff;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    /* Detail Container */
+    .detail-container {
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      margin: auto;
+      max-width: 900px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .detail-info p {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .detail-info strong {
+      color: #333;
+    }
+
+    /* Status Label */
+    .status-label {
+      display: inline-block;
+      font-weight: bold;
+      padding: 5px 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-confirmed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelled {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Tombol Aksi */
+    .action-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-cancel {
+      background-color: #dc3545;
+      color: #fff;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-cancel:hover {
+      background-color: #c82333;
+    }
+
+    .btn-confirm {
+      background-color: #28a745;
+      color: #fff;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-confirm:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    Detail Pemesanan Gedung
+  </header>
+
+  <!-- Container Detail Pemesanan -->
+  <div class="container detail-container">
+    <!-- Judul -->
+    <h2 class="detail-title">Gedung Serbaguna Cakra</h2>
+
+    <!-- Status -->
+    <div class="status-label status-pending">Menunggu Konfirmasi</div>
+
+    <!-- Detail Informasi -->
+    <div class="detail-info">
+      <p><strong>Tanggal Pemesanan:</strong> 12 Desember 2024</p>
+      <p><strong>Durasi Pemesanan:</strong> 08:00 - 17:00 WIB</p>
+      <p><strong>Alamat:</strong> Jalan Kampus Raya No. 123, Jakarta Selatan</p>
+      <p><strong>Keperluan:</strong> Seminar Tahunan Fakultas Teknik</p>
+      <p><strong>Status:</strong> <span class="status-pending">Menunggu Konfirmasi</span></p>
+    </div>
+
+    <!-- Tombol Aksi -->
+    <div class="action-buttons">
+      <button class="btn btn-confirm">Konfirmasi</button>
+      <button class="btn btn-cancel" data-bs-toggle="modal" data-bs-target="#cancelModal">Batalkan Pemesanan</button>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Pembatalan -->
+  <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancelModalLabel">Konfirmasi Pembatalan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <p>Apakah Anda yakin ingin membatalkan pemesanan ini?</p>
+          <p><strong>Gedung:</strong> Gedung Serbaguna Cakra</p>
+          <p><strong>Tanggal:</strong> 12 Desember 2024</p>
+          <p><strong>Waktu:</strong> 08:00 - 17:00 WIB</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+          <button type="button" class="btn btn-danger">Ya, Batalkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
