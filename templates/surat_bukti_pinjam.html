@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Cuti - {{ $tanggungan->mahasiswa->user->name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .content {
+            margin-top: 100px;
+            text-align: justify;
+        }
+        .content p {
+            margin-bottom: 10px;
+        }
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+            border: none;
+            width: 100%;
+        }
+        .sign {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Surat Bukti Peminjaman Ruangan Gedung</h1>
+        <h3>Universitas Trunojoyo Madura</h3>
+
+        <div class="content">
+            <p>Yang bertanda tangan di bawah ini menerangkan bahwa :</p>
+            <p><strong>Nama:</strong> {--------nama orangnya bang--------}</p>
+            <p><strong>NIM:</strong> {--------nim orangnya bang--------}</p>
+            <br>
+            <p>Dengan ini mengajukan permohonan peminjaman gedung untuk kegiatan sebagai berikut:</p>
+            <p><strong>Kegiatan:</strong> {--------acara/perihalnya bang--------}</p>
+            <p><strong>Tanggal Mulai:</strong> {--------tanggal mulai bang--------}</p>
+            <p><strong>Tanggal Selesai:</strong> {--------tanggal selesai bang--------}</p>
+            <p><strong>Gedung/Ruangan:</strong> {--------gedung sama ruangannya bang--------}</p>
+            <br>
+            <p>
+                Sebagai peminjam, saya menyatakan akan mematuhi peraturan yang berlaku di lingkungan kampus dan bertanggung jawab penuh
+                atas penggunaan gedung selama kegiatan berlangsung, termasuk menjaga kebersihan, ketertiban, dan keamanan.
+            </p>
+        </div>
+        
+        <table class="signature">
+            <td>
+                <p>Peminjam, </p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p>{--------nama orangnya bang--------}</p>
+            </td>
+            <td>
+                <p>Penanggung Jawab Gedung, </p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p>{--------nama Penanggung jawabnya bang--------}</p>
+            </td>
+        </table>
+    </div>
+</body>
+</html>
