@@ -112,7 +112,7 @@
               <div class="col-md-4">
                   <div class="card card-custom">
                       <a href="{{ url_for('detail', id_ruang=ruang.id_ruang) }}" class="no-decoration">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Gedung Cakra">
+                        <img src="../static/img/{{ruang.img}}" class="card-img-top" alt="Gedung Cakra">
                         <div class="card-body">
                             <span class="badge badge-custom mb-2">Tersedia</span>
                             <h5 class="card-title">{{ ruang.nama_ruang }}</h5>

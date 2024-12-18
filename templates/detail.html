@@ -113,7 +113,7 @@
   {% include 'navbar.html' %}
 
 <section class="hero-section">
-    <div class="container">
+    <div class="container mb-5 mt-5">
         <h1>Detail {{ruang.nama_ruang}}</h1>
     </div>
 </section>
@@ -128,10 +128,10 @@
           <div class="row g-3 gallery">
               <!-- Gambar Utama 800x400 -->
               <div class="col-12 d-flex flex-column">
-                  <img src="https://via.placeholder.com/800x400" alt="Gedung Utama" class="img-fluid main-photo">
+                  <img src="../static/img/{{ruang.img}}" alt="Gedung Utama" class="img-fluid main-photo">
                   <!-- Tambahkan Peta di Bawah Gambar Utama -->
                   <iframe 
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4007.303352114686!2d112.7244950351923!3d-7.130557721697795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd803dd04854303%3A0xa436f3258944c98f!2sGedung%20Cakra%20-%20UTM!5e0!3m2!1sid!2sid!4v1734486162871!5m2!1sid!2sid" 
+                      src="{{ruang.iframe}}"
                       width="100%" 
                       height="200" 
                       frameborder="0" 
@@ -151,45 +151,33 @@
 
     <!-- Card 2: Informasi Penyewaan -->
     <div class="custom-card">
-      <div class="custom-card-header">Detail Penyewaan Gedung</div>
-      <div class="custom-card-body">
-        <h5 class="mb-3">Gedung Serbaguna Cakra</h5>
-        <p>
-          Gedung ini cocok untuk seminar, rapat akademik, workshop, dan acara wisuda. Lokasi strategis dengan fasilitas lengkap seperti AC, proyektor, Wi-Fi, dan parkir luas.
-        </p>
-        <!-- Harga Card -->
-          <a href="#" class="btn cta-button mt-3">Ajukan Penyewaan</a>
-      </div>
-    </div>
-
-    <!-- Card 3: Fasilitas dan Lokasi -->
-    <div class="custom-card">
-      <div class="custom-card-header">Fasilitas dan Lokasi</div>
+      <div class="custom-card-header">Detail Gedung / Ruangan</div>
       <div class="custom-card-body">
         <div class="row">
+          <!-- Kolom Kiri: Deskripsi -->
           <div class="col-md-6">
-            <h6>Fasilitas Utama</h6>
-            <ul>
-              <li>AC dan WiFi Gratis</li>
-              <li>Proyektor dan Sound System</li>
-              <li>Kursi dan Meja Lengkap</li>
-              <li>Parkir Luas</li>
-            </ul>
+            <h5 class="mb-3">{{ ruang.nama_ruang }}</h5>
+            <p align="justify">
+              {{ ruang.deskripsi }}
+            </p>
+            <!-- Harga Card -->
+            <a href="#" class="btn cta-button mt-3">Ajukan Form Peminjaman</a>
           </div>
+    
+          <!-- Kolom Kanan: Fasilitas -->
           <div class="col-md-6">
-            <h6>Lokasi</h6>
-            <p>Jalan Kampus Raya No. 123, Jakarta Selatan, Indonesia</p>
-            <p>Stasiun MRT Blok M - 2.3 km</p>
-            <p>Jakarta Convention Center - 1.66 km</p>
+            <h5 class="mb-3">Fasilitas Utama</h5>
+            <ul>
+              {% for fasilitas in ruang.fasilitas_list %}
+                <li>{{ fasilitas }}</li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Notification Bar -->
-    <div class="notification-bar">
-      Jangan Lewatkan! <span class="text-primary">Sisa 1 Gedung</span> untuk harga terbaik.
-    </div>
     
   </div>
 

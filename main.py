@@ -158,6 +158,9 @@ def detail():
         flash("Ruangan tidak ditemukan.", "error")
         return redirect(url_for('home'))
 
+    # Pisahkan fasilitas berdasarkan koma
+    ruang['fasilitas_list'] = [f.strip() for f in ruang['fasilitas'].split(',')]
+
     # Kirim data ke template
     return render_template('detail.html', ruang=ruang)
 
