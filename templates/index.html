@@ -105,7 +105,7 @@
 
     <!-- Cards Section -->
     <div class="container py-5">
-        <h2 class="text-center mb-4 fw-bold">Daftar Gedung Kampus</h2>
+        <h2 class="text-center mb-4 fw-bold">Daftar Gedung / Ruangan Kampus</h2>
         <div class="row g-4">
             <!-- Card 1: Gedung Cakra -->
             {% for ruang in ruangs %}
@@ -118,7 +118,7 @@
                             <h5 class="card-title">{{ ruang.nama_ruang }}</h5>
                             <h6 class="card-subtitle mb-2">Kapasitas {{ ruang.kapasitas }} Orang</h6>
                             <p class="card-text">{{ruang.deskripsi | truncate(150, True)}}</p>
-                            <a href="/detail" class="read-more">Lihat Detail →</a>
+                            <a href="{{ url_for('detail', id_ruang=ruang.id_ruang) }}" class="read-more">Lihat Detail →</a>
                         </div>
                       </a>
                   </div>

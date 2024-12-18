@@ -154,7 +154,11 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="#" class="action-btn btn-detail">Lihat Detail</a>
+                    {% if item.status == 'Diterima' %}  
+                      <a href="{{ url_for('print_bukti', id_form=item.id_form) }}" class="action-btn btn-detail" target="_blank">Print Bukti Pinjam</a>
+                    {% else %}  
+                      <p>-</p>
+                    {% endif %}
                 </td>
             </tr>
           {% endfor %}

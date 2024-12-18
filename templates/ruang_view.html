@@ -182,10 +182,10 @@
       <div class="event-card">
         <div class="event-image">
           <div class="card-number">{{ loop.index }}</div>
-          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjfYCaIY4ZKSHnQ15yNPknBxNs3_7zVNM302CmKEGbWNkzjsoU7OL-7clZMjXoUkT6NcBFFfPEKggJLCoy2oP_LfxtcjmjaMly77obHVwcl4IW9jNLlFuqRSTcwTct8_x8Jzt6tDXUcUjM/s1600/1667323193947830-0.png" alt="Gedung Cakra">
+          <img src="../static/img/{{ruang.img}}" alt="Gedung Cakra">
           
         </div>
-          <a href="http://127.0.0.1:5001/booking?id_ruang={{ ruang.id_ruang }}" class="no-decoration">
+          <a href="{{ url_for('detail', id_ruang=ruang.id_ruang) }}" class="no-decoration">
             <div class="event-details">
               <div class="mb-2">
                 <span class="badge-custom"><i class="bi bi-building"></i> {{ ruang.nama_ruang }} </span>
@@ -194,7 +194,7 @@
               <h5>{{ ruang.nama_ruang }} </h5>
               <p>{{ ruang.deskripsi }}</p>
               <p>Kapasitas : {{ ruang.kapasitas }} Orang</p>
-              <a href="http://127.0.0.1:5001/booking?id_ruang={{ ruang.id_ruang }}" class="read-more">Pesan Sekarang</a>
+              <a href="{{ url_for('detail', id_ruang=ruang.id_ruang) }}" class="read-more">Pesan Sekarang</a>
             </div>
           </a>
       </div>

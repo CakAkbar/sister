@@ -164,5 +164,28 @@ def detail():
     # Kirim data ke template
     return render_template('detail.html', ruang=ruang)
 
+@app.route('/print_bukti/<int:id_form>', methods=['GET'])
+def print_bukti(id_form):
+    """Halaman untuk mencetak bukti peminjaman."""
+    # Ambil data peminjaman berdasarkan id_form
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT f.id_form, f.nama_peminjam AS nama, f.nim, f.start_date, f.end_date, f.perihal, r.nama_ruang
+        FROM tb_form f
+        JOIN tb_ruang r ON f.id_ruang = r.id_ruang
+        WHERE f.id_form = %s
+    """, (id_form,))
+    peminjaman = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not peminjaman:
+        flash("Data peminjaman tidak ditemukan!", "error")
+        return redirect(url_for('riwayat'))
+
+    # Kirim data ke template
+    return render_template('surat_bukti_pinjam.html', peminjaman=peminjaman)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

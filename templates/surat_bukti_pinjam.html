@@ -3,19 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Cuti - {{ $tanggungan->mahasiswa->user->name }}</title>
+    <title>Surat Bukti Peminjaman - {{ peminjaman.nama }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.5;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            position: relative;
         }
         .container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.9); /* Tambahkan lapisan putih untuk teks */
+            z-index: 2; /* Pastikan teks di atas background */
+        }
+        .background-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%; /* Atur ukuran logo */
+            opacity: 0.05; /* Atur transparansi */
+            z-index: 1; /* Pastikan logo di belakang teks */
         }
         h1, h2, h3 {
             text-align: center;
@@ -36,23 +51,30 @@
         .sign {
             width: 50%;
         }
+    
+        /* Pengaturan margin saat dicetak */
+        @page {
+            margin: 1cm; /* Atur margin cetak */
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <img src="{{ url_for('static', filename='logo/logo.png') }}" alt="Logo Universitas" class="background-logo">
+        
         <h1>Surat Bukti Peminjaman Ruangan Gedung</h1>
         <h3>Universitas Trunojoyo Madura</h3>
 
         <div class="content">
             <p>Yang bertanda tangan di bawah ini menerangkan bahwa :</p>
-            <p><strong>Nama:</strong> {--------nama orangnya bang--------}</p>
-            <p><strong>NIM:</strong> {--------nim orangnya bang--------}</p>
+            <p><strong>Nama:</strong> {{ peminjaman.nama }}</p>
+            <p><strong>NIM:</strong> {{ peminjaman.nim }}</p>
             <br>
             <p>Dengan ini mengajukan permohonan peminjaman gedung untuk kegiatan sebagai berikut:</p>
-            <p><strong>Kegiatan:</strong> {--------acara/perihalnya bang--------}</p>
-            <p><strong>Tanggal Mulai:</strong> {--------tanggal mulai bang--------}</p>
-            <p><strong>Tanggal Selesai:</strong> {--------tanggal selesai bang--------}</p>
-            <p><strong>Gedung/Ruangan:</strong> {--------gedung sama ruangannya bang--------}</p>
+            <p><strong>Kegiatan:</strong> {{ peminjaman.perihal }}</p>
+            <p><strong>Tanggal Mulai:</strong> {{ peminjaman.start_date }}</p>
+            <p><strong>Tanggal Selesai:</strong> {{ peminjaman.end_date }}</p>
+            <p><strong>Gedung/Ruangan:</strong> {{ peminjaman.nama_ruang }}</p>
             <br>
             <p>
                 Sebagai peminjam, saya menyatakan akan mematuhi peraturan yang berlaku di lingkungan kampus dan bertanggung jawab penuh
@@ -67,7 +89,7 @@
                 <br>
                 <br>
                 <br>
-                <p>{--------nama orangnya bang--------}</p>
+                <p>{{ peminjaman.nama }}</p>
             </td>
             <td>
                 <p>Penanggung Jawab Gedung, </p>
@@ -75,9 +97,14 @@
                 <br>
                 <br>
                 <br>
-                <p>{--------nama Penanggung jawabnya bang--------}</p>
+                <p>Gibran Rakabuming Raka</p>
             </td>
         </table>
     </div>
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>    
 </body>
 </html>
