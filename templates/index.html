@@ -65,6 +65,15 @@
         .read-more:hover {
             color: #a777e3;
         }
+        .no-decoration {
+            color: inherit; /* Menggunakan warna teks default elemen induk */
+            text-decoration: none; /* Menghapus underline */
+        }
+    
+        .no-decoration:hover {
+            color: inherit; /* Tetap warna default saat hover */
+            text-decoration: none; /* Menghindari underline muncul saat hover */
+        }
     </style>
 </head>
 <body>
@@ -73,10 +82,8 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1>Selamat Datang {{ session['user'] }}!</h1>
+            <h1>Selamat Datang {{ user_name }}!</h1>
             <p>Temukan ruangan terbaik untuk seminar, pertemuan, dan kegiatan akademik.</p>
-            <a href="/ruang/view"><button class="hero-btn">Cari Ruangan</button></a>
-            
         </div>
     </section>
 
@@ -88,18 +95,23 @@
             {% for ruang in ruangs %}
               <div class="col-md-4">
                   <div class="card card-custom">
-                      <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Gedung Cakra">
-                      <div class="card-body">
-                          <span class="badge badge-custom mb-2">Tersedia</span>
-                          <h5 class="card-title">{{ ruangs.nama_ruang }}</h5>
-                          <h6 class="card-subtitle mb-2">Kapasitas {{ ruang.kapasitas }} Orang</h6>
-                          <p class="card-text">{{ruang.deskripsi | truncate(150, True)}}</p>
-                          <a href="#" class="read-more">Lihat Detail →</a>
-                      </div>
+                      <a href="#" class="no-decoration">
+                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Gedung Cakra">
+                        <div class="card-body">
+                            <span class="badge badge-custom mb-2">Tersedia</span>
+                            <h5 class="card-title">{{ ruang.nama_ruang }}</h5>
+                            <h6 class="card-subtitle mb-2">Kapasitas {{ ruang.kapasitas }} Orang</h6>
+                            <p class="card-text">{{ruang.deskripsi | truncate(150, True)}}</p>
+                            <a href="#" class="read-more">Lihat Detail →</a>
+                        </div>
+                      </a>
                   </div>
               </div>
             
             {% endfor %}
+
+            <a href="/ruang/view" class="text-center"><button class="hero-btn">Lihat Lebih Lengkap</button></a>
+
 
 
 

@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from koneksi import get_db_connection
 import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key"
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -13,6 +14,11 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking_form():
+    if 'user' not in session:  # Pastikan pengguna sudah login
+        flash("Silakan login terlebih dahulu!", "warning")
+        return redirect(url_for('login'))  # Arahkan ke halaman login jika belum login
+
+    id_user = session['user']  # Ambil id_user dari session
     id_ruang = request.args.get('id_ruang')
 
     with get_db_connection() as conn:
@@ -24,9 +30,11 @@ def booking_form():
                 return "Ruang tidak ditemukan", 404
 
             if request.method == 'POST':
+                nim = request.form['nim']
                 nama_peminjam = request.form['nama_peminjam']
                 tanggal_mulai = request.form['tanggal_mulai']
                 tanggal_selesai = request.form['tanggal_selesai']
+                perihal = request.form['perihal']
                 file_proposal = request.files['file_proposal']
 
                 # Validasi apakah end_date lebih besar dari start_date
@@ -66,21 +74,19 @@ def booking_form():
                 else:
                     file_path = None
 
-                # Simpan data ke database
+                # Simpan data ke database termasuk id_user
                 query_insert = """
-                    INSERT INTO tb_form (nama_peminjam, id_ruang, start_date, end_date, proposal)
-                    VALUES (%s, %s, %s, %s, %s)
+                    INSERT INTO tb_form (id_user, nim, nama_peminjam, id_ruang, start_date, end_date, perihal, proposal)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """
-                cursor.execute(query_insert, (nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, file_path))
+                cursor.execute(query_insert, (id_user, nim, nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, perihal, file_path))
                 conn.commit()
 
                 # Redirect dengan parameter sukses
                 return redirect(url_for('booking_form', id_ruang=id_ruang, success=True))
 
     success = request.args.get('success', False)
-    return render_template('form_booking.html', id_ruang=id_ruang, nama_ruang=ruang['nama_ruang'], success=success)
-
-
+    return render_template('form_booking.html', id_ruang=id_ruang, id_user=id_user, nama_ruang=ruang['nama_ruang'], success=success)
 
 
 if __name__ == '__main__':

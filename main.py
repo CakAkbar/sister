@@ -11,13 +11,29 @@ def home():
     """Halaman utama."""
     if 'user' not in session:
         return redirect(url_for('login'))
+
+    # Ambil data pengguna berdasarkan session['user']
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM tb_ruang LIMIT 3")  # Ambil hanya 3 data
+
+    # Ambil nama pengguna
+    cursor.execute("SELECT username FROM tb_users WHERE id_user = %s", (session['user'],))
+    user = cursor.fetchone()
+    if not user:
+        flash("Data pengguna tidak ditemukan!", "error")
+        cursor.close()
+        conn.close()
+        return redirect(url_for('login'))
+
+    # Ambil data tb_ruang
+    cursor.execute("SELECT * FROM tb_ruang LIMIT 3")
     ruang = cursor.fetchall()
+
     cursor.close()
     conn.close()
-    return render_template('index.html', user=session['user'], ruangs=ruang)
+
+    # Kirim data ke template
+    return render_template('index.html', user_name=user['username'], ruangs=ruang)
 
 # Halaman register
 @app.route('/register', methods=['GET', 'POST'])
@@ -69,7 +85,7 @@ def login():
             flash("Username atau Password salah!", "error")
             return redirect(url_for('login'))
 
-        session['user'] = user['username']
+        session['user'] = user['id_user']
         return redirect(url_for('home'))
 
     return render_template('login.html')

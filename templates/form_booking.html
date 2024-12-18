@@ -135,7 +135,7 @@
         {% endif %}
 
         <!-- Form -->
-        <h1 class="booking-title">Booking Ruangan <span style='color:red'>{{ nama_ruang }}</span></h1>
+        <h1 class="booking-title">Booking <span style='color:red'>{{ nama_ruang }}</span></h1>
         <p class="text-center text-muted">Silakan isi formulir berikut untuk memesan ruangan.</p>
 
         <form method="POST" enctype="multipart/form-data">
@@ -145,19 +145,29 @@
             </div>
             <div class="mb-4">
                 <input type="hidden" id="id_ruang" name="id_ruang" value="{{ id_ruang }}">
+                <input type="hidden" id="id_user" name="id_user" value="{{ id_user }}">
+                
             </div>
             <div class="mb-4">
-                <label for="nama_peminjam" class="form-label">Nama Peminjam</label>
+                <label for="nama_peminjam" class="form-label">Nama Lengkap Peminjam</label>
                 <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam" required>
             </div>
             <div class="mb-4">
-                <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+              <label for="nim" class="form-label">NIM Peminjam</label>
+              <input type="text" class="form-control" id="nim" name="nim" required>
+          </div>
+            <div class="mb-4">
+                <label for="tanggal_mulai" class="form-label">Tanggal Mulai Meminjam</label>
                 <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
             </div>
             <div class="mb-4">
-                <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                <label for="tanggal_selesai" class="form-label">Tanggal Selesai Meminjam</label>
                 <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
             </div>
+            <div class="mb-4">
+              <label for="perihal" class="form-label">Masukkan Tujuan Peminjaman</label>
+              <input type="text" class="form-control" id="perihal" name="perihal" required>
+          </div>
             <div class="mb-4">
                 <label for="file_proposal" class="form-label">Unggah Proposal</label>
                 <input type="file" class="form-control" id="file_proposal" name="file_proposal" required>
