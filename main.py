@@ -113,5 +113,30 @@ def view_ruang():
     conn.close()
     return render_template('ruang_view.html', ruangs=ruangs, user=session['user'])
 
+@app.route('/riwayat', methods=['GET'])
+def riwayat():
+    """Halaman riwayat peminjaman."""
+    if 'user' not in session:
+        flash("Silakan login terlebih dahulu!", "warning")
+        return redirect(url_for('login'))
+
+    # Ambil data peminjaman berdasarkan id_user dari sesi
+    id_user = session['user']
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT f.id_form, f.start_date, f.end_date, f.status, r.nama_ruang
+        FROM tb_form f
+        JOIN tb_ruang r ON f.id_ruang = r.id_ruang
+        WHERE f.id_user = %s
+        ORDER BY f.start_date DESC
+    """, (id_user,))
+    riwayat_peminjaman = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Kirim data ke template
+    return render_template('riwayat.html', riwayat_peminjaman=riwayat_peminjaman)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
