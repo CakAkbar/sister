@@ -138,5 +138,28 @@ def riwayat():
     # Kirim data ke template
     return render_template('riwayat.html', riwayat_peminjaman=riwayat_peminjaman)
 
+@app.route('/detail', methods=['GET'])
+def detail():
+    """Halaman detail ruangan."""
+    id_ruang = request.args.get('id_ruang')
+    if not id_ruang:
+        flash("ID Ruangan tidak ditemukan.", "error")
+        return redirect(url_for('home'))
+
+    # Ambil data ruangan berdasarkan id_ruang
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM tb_ruang WHERE id_ruang = %s", (id_ruang,))
+    ruang = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not ruang:
+        flash("Ruangan tidak ditemukan.", "error")
+        return redirect(url_for('home'))
+
+    # Kirim data ke template
+    return render_template('detail.html', ruang=ruang)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
