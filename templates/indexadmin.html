@@ -258,16 +258,16 @@
 
         viewDocButtons.forEach((button) => {
           button.addEventListener("click", function () {
-            const fileName = this.getAttribute("data-proposal"); // Ambil nama file dari data attribute
-            const documentPath = `../uploads/${fileName}`; // Path ke folder uploads
+            const documentPath = this.getAttribute("data-proposal"); // Ambil path file dari data attribute
             const documentModal = new bootstrap.Modal(
               document.getElementById("documentModal")
             );
             const documentContent = document.getElementById("documentContent");
         
-            const fileExtension = fileName.split(".").pop().toLowerCase();
+            const fileExtension = documentPath.split(".").pop().toLowerCase();
         
             if (fileExtension === "pdf") {
+              // Tampilkan PDF di iframe
               documentContent.innerHTML = `<iframe src="${documentPath}" width="100%" height="500px" frameborder="0"></iframe>`;
             } else if (fileExtension === "docx") {
               fetch(documentPath)
@@ -292,6 +292,7 @@
             documentModal.show();
           });
         });
+        
         
       });
 

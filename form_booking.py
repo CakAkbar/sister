@@ -6,11 +6,13 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Pastikan folder `static/uploads` ada
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking_form():
@@ -72,15 +74,16 @@ def booking_form():
                     filename = secure_filename(file_proposal.filename)
                     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     file_proposal.save(file_path)
+                    file_path_db = filename  # Simpan hanya nama file ke database
                 else:
-                    file_path = None
+                    file_path_db = None
 
                 # Simpan data ke database termasuk id_user
                 query_insert = """
                     INSERT INTO tb_form (id_user, nim, nama_peminjam, id_ruang, start_date, end_date, perihal, proposal, status)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
-                cursor.execute(query_insert, (id_user, nim, nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, perihal, file_path, status))
+                cursor.execute(query_insert, (id_user, nim, nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, perihal, file_path_db, status))
                 conn.commit()
 
                 # Redirect dengan parameter sukses
@@ -88,6 +91,7 @@ def booking_form():
 
     success = request.args.get('success', False)
     return render_template('form_booking.html', id_ruang=id_ruang, id_user=id_user, nama_ruang=ruang['nama_ruang'], success=success)
+
 
 
 if __name__ == '__main__':
