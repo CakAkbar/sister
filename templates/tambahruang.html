@@ -107,20 +107,24 @@
 
         <!-- SweetAlert2 Pop-Up -->
         <script>
-          // Cek jika ada parameter 'success' di URL
-          const urlParams = new URLSearchParams(window.location.search);
-          if (urlParams.has('success')) {
+          document.addEventListener("DOMContentLoaded", function () {
+            // Cek jika ada parameter 'success' di URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
               Swal.fire({
-                  title: 'Berhasil!',
-                  text: 'Form Anda berhasil terkirim!',
-                  icon: 'success',
-                  confirmButtonText: 'OK',
+                title: 'Berhasil!',
+                text: 'Ruangan baru berhasil ditambahkan.',
+                icon: 'success',
+                confirmButtonText: 'OK'
               }).then(() => {
-                  // Redirect ke halaman index.html setelah klik OK
-                  window.location.href = 'http://127.0.0.1:5000/';
+                // Hapus parameter 'success' dari URL setelah menampilkan SweetAlert
+                const cleanUrl = window.location.href.split('?')[0];
+                window.history.replaceState(null, null, cleanUrl);
               });
-          }
+            }
+          });
         </script>
+        
       
 
         {% if error %}
@@ -135,46 +139,35 @@
         {% endif %}
 
         <!-- Form -->
-        <h1 class="booking-title">Booking <span style='color:red'>{{ nama_ruang }}</span></h1>
-        <p class="text-center text-muted">Silakan isi formulir berikut untuk memesan ruangan.</p>
+        <h2 class="text-center text-muted">Tambah Ruangan</h2>
 
-        <form method="POST" enctype="multipart/form-data">
-            <div class="mb-4">
-                <label for="id_ruang" class="form-label">Nama Ruangan</label>
-                <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" value="{{ nama_ruang }}" readonly>
-            </div>
-            <div class="mb-4">
-                <input type="hidden" id="id_ruang" name="id_ruang" value="{{ id_ruang }}">
-                <input type="hidden" id="id_user" name="id_user" value="{{ id_user }}">
-                
-            </div>
-            <div class="mb-4">
-                <label for="nama_peminjam" class="form-label">Nama Lengkap Peminjam</label>
-                <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam" required>
-            </div>
-            <div class="mb-4">
-              <label for="nim" class="form-label">NIM Peminjam</label>
-              <input type="text" class="form-control" id="nim" name="nim" required>
+        <form action="{{ url_for('tambah_ruang') }}" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+              <label for="nama_ruang" class="form-label">Nama Ruang</label>
+              <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" required>
           </div>
-            <div class="mb-4">
-                <label for="tanggal_mulai" class="form-label">Tanggal Mulai Meminjam</label>
-                <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
-            </div>
-            <div class="mb-4">
-                <label for="tanggal_selesai" class="form-label">Tanggal Selesai Meminjam</label>
-                <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
-            </div>
-            <div class="mb-4">
-              <label for="perihal" class="form-label">Masukkan Tujuan Peminjaman</label>
-              <input type="text" class="form-control" id="perihal" name="perihal" required>
+          <div class="mb-3">
+              <label for="kapasitas" class="form-label">Kapasitas</label>
+              <input type="number" class="form-control" id="kapasitas" name="kapasitas" required>
           </div>
-            <div class="mb-4">
-                <label for="file_proposal" class="form-label">Unggah Proposal</label>
-                <input type="file" class="form-control" id="file_proposal" name="file_proposal" required>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-submit">Ajukan Pemesanan</button>
-            </div>
+          <div class="mb-3">
+              <label for="deskripsi" class="form-label">Deskripsi</label>
+              <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+              <label for="iframe" class="form-label">Embed Iframe (Google Maps atau lainnya)</label>
+              <textarea class="form-control" id="iframe" name="iframe" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+              <label for="fasilitas" class="form-label">Fasilitas (Pisahkan dengan koma)</label>
+              <input type="text" class="form-control" id="fasilitas" name="fasilitas" required>
+          </div>
+          <div class="mb-3">
+              <label for="img" class="form-label">Gambar Ruangan</label>
+              <input type="file" class="form-control" id="img" name="img" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+          <a href="{{ url_for('gedungadmin') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>
 </body>

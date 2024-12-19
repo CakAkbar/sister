@@ -186,18 +186,19 @@ def tambah_ruang():
                 VALUES (%s, %s, %s, %s, %s, %s)
             """, (nama_ruang, kapasitas, deskripsi, iframe, fasilitas, filename))
             conn.commit()
-
-            flash("Ruangan berhasil ditambahkan!", "success")
             cursor.close()
             conn.close()
+
+            # Redirect dengan parameter success ke halaman utama
+            return redirect(url_for('homeadmin', success='true'))
+
         except Exception as e:
             print(f"ERROR: {e}")
             flash("Terjadi kesalahan saat menambahkan ruangan.", "error")
             return redirect(url_for('tambah_ruang'))
 
-        return redirect(url_for('gedungadmin'))
-
     return render_template('tambah_ruang.html')
+
 
 
 if __name__ == '__main__':
