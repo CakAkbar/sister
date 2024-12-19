@@ -39,6 +39,7 @@ def booking_form():
                 perihal = request.form['perihal']
                 file_proposal = request.files['file_proposal']
                 status = 'Pending'
+                id_admin = 1
 
                 # Validasi apakah end_date lebih besar dari start_date
                 if tanggal_selesai < tanggal_mulai:
@@ -80,10 +81,10 @@ def booking_form():
 
                 # Simpan data ke database termasuk id_user
                 query_insert = """
-                    INSERT INTO tb_form (id_user, nim, nama_peminjam, id_ruang, start_date, end_date, perihal, proposal, status)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    INSERT INTO tb_form (id_user, nim, nama_peminjam, id_ruang, start_date, end_date, perihal, proposal, status, id_admin)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
-                cursor.execute(query_insert, (id_user, nim, nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, perihal, file_path_db, status))
+                cursor.execute(query_insert, (id_user, nim, nama_peminjam, id_ruang, tanggal_mulai, tanggal_selesai, perihal, file_path_db, status, id_admin))
                 conn.commit()
 
                 # Redirect dengan parameter sukses

@@ -171,9 +171,11 @@ def print_bukti(id_form):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT f.id_form, f.nama_peminjam AS nama, f.nim, f.start_date, f.end_date, f.perihal, r.nama_ruang
+        SELECT f.id_form, f.nama_peminjam AS nama, f.nim, f.start_date, f.end_date, 
+            f.perihal, r.nama_ruang, f.id_admin, a.username AS admin_username
         FROM tb_form f
         JOIN tb_ruang r ON f.id_ruang = r.id_ruang
+        LEFT JOIN tb_admin a ON f.id_admin = a.id_admin
         WHERE f.id_form = %s
     """, (id_form,))
     peminjaman = cursor.fetchone()
@@ -186,6 +188,7 @@ def print_bukti(id_form):
 
     # Kirim data ke template
     return render_template('surat_bukti_pinjam.html', peminjaman=peminjaman)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

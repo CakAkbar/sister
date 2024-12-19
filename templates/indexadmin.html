@@ -119,9 +119,9 @@
                       <td>
                           {% if form.status == "Pending" %}
                             <form id="accept-form-{{ form.id_form }}" method="POST" action="{{ url_for('update_status') }}" style="display:inline;">
-                                <input type="hidden" name="id_form" value="{{ form.id_form }}">
-                                <input type="hidden" name="action" value="accept">
-                                <button type="button" class="btn btn-success accept-btn">Accept</button> <!-- type="button" -->
+                              <input type="hidden" name="id_form" value="{{ form.id_form }}">
+                              <input type="hidden" name="action" value="accept">
+                              <button type="button" class="btn btn-success accept-btn">Accept</button>
                             </form>
                             <form id="reject-form-{{ form.id_form }}" method="POST" action="{{ url_for('update_status') }}" style="display:inline;">
                                 <input type="hidden" name="id_form" value="{{ form.id_form }}">

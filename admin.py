@@ -70,6 +70,7 @@ def homeadmin():
     
     cursor.execute("SELECT COUNT(*) AS terima_count FROM tb_form WHERE status = 'Diterima'")
     terima = cursor.fetchone()['terima_count']
+    
 
     cursor.close()
     conn.close()
@@ -85,7 +86,9 @@ def update_status():
 
     id_form = request.form.get('id_form')
     action = request.form.get('action')
-    print(f"DEBUG: Received id_form={id_form}, action={action}")
+    id_admin = session['admin']  # Ambil id_admin dari session
+
+    print(f"DEBUG: Received id_form={id_form}, action={action}, id_admin={id_admin}")
 
     if not id_form or not action:
         flash("Data form tidak valid!", "error")
@@ -103,7 +106,12 @@ def update_status():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("UPDATE tb_form SET status = %s WHERE id_form = %s AND status = 'Pending'", (new_status, id_form))
+        # Update status dan id_admin
+        cursor.execute("""
+            UPDATE tb_form 
+            SET status = %s, id_admin = %s 
+            WHERE id_form = %s AND status = 'Pending'
+        """, (new_status, id_admin, id_form))
         conn.commit()
         print(f"DEBUG: Updated {cursor.rowcount} rows")
         if cursor.rowcount == 0:
@@ -117,6 +125,7 @@ def update_status():
         flash("Terjadi kesalahan saat memperbarui status.", "error")
 
     return redirect(url_for('homeadmin'))
+
 
 @app.route('/uploads/<filename>')
 def serve_uploads(filename):
