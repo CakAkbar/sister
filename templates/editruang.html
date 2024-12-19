@@ -97,7 +97,7 @@
 </head>
 
 <body>
-  {% include 'navbaradmin.html' %}
+  <div id="navbar-container"></div>
     <div class="booking-container">
         <!-- Debug -->
         <div style="display:none;">
@@ -113,16 +113,18 @@
             if (urlParams.has('success')) {
               Swal.fire({
                 title: 'Berhasil!',
-                text: 'Ruangan baru berhasil ditambahkan.',
+                text: 'Data ruangan berhasil diperbarui.',
                 icon: 'success',
                 confirmButtonText: 'OK'
               }).then(() => {
-                // Redirect ke halaman utama setelah menekan OK
-                window.location.href = "/";
+                // Redirect ke halaman gedung setelah klik OK
+                window.location.href = "{{ url_for('gedungadmin') }}";
               });
             }
           });
         </script>
+        
+        
         
       
 
@@ -138,32 +140,34 @@
         {% endif %}
 
         <!-- Form -->
-        <h2 class="text-center text-muted">Tambah Ruangan</h2>
+        <h2 class="text-center text-muted">Edit Gedung / Ruangan</h2>
 
-        <form action="{{ url_for('tambah_ruang') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('edit_ruang', id_ruang=room.id_ruang) }}" method="POST" enctype="multipart/form-data">
           <div class="mb-3">
               <label for="nama_ruang" class="form-label">Nama Ruang</label>
-              <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" required>
+              <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" value="{{ room.nama_ruang }}" required>
           </div>
           <div class="mb-3">
               <label for="kapasitas" class="form-label">Kapasitas</label>
-              <input type="number" class="form-control" id="kapasitas" name="kapasitas" required>
+              <input type="number" class="form-control" id="kapasitas" name="kapasitas" value="{{ room.kapasitas }}" required>
           </div>
           <div class="mb-3">
               <label for="deskripsi" class="form-label">Deskripsi</label>
-              <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+              <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required>{{ room.deskripsi }}</textarea>
           </div>
           <div class="mb-3">
-              <label for="iframe" class="form-label">Embed Iframe (Google Maps atau lainnya)</label>
-              <textarea class="form-control" id="iframe" name="iframe" rows="3" required></textarea>
+              <label for="iframe" class="form-label">Embed Iframe</label>
+              <textarea class="form-control" id="iframe" name="iframe" rows="3" required>{{ room.iframe }}</textarea>
           </div>
           <div class="mb-3">
               <label for="fasilitas" class="form-label">Fasilitas (Pisahkan dengan koma)</label>
-              <input type="text" class="form-control" id="fasilitas" name="fasilitas" required>
+              <input type="text" class="form-control" id="fasilitas" name="fasilitas" value="{{ room.fasilitas }}" required>
           </div>
           <div class="mb-3">
               <label for="img" class="form-label">Gambar Ruangan</label>
-              <input type="file" class="form-control" id="img" name="img" accept="image/*" required>
+              <input type="file" class="form-control" id="img" name="img" accept="image/*">
+              <p class="text-muted">Biarkan kosong jika tidak ingin mengganti gambar.</p>
+              <img src="{{ url_for('static', filename='img/' ~ room.img) }}" alt="Gambar Ruangan" class="img-thumbnail mt-2" width="200">
           </div>
           <button type="submit" class="btn btn-primary">Simpan</button>
           <a href="{{ url_for('gedungadmin') }}" class="btn btn-secondary">Batal</a>

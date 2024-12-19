@@ -189,15 +189,129 @@ def tambah_ruang():
             cursor.close()
             conn.close()
 
-            # Redirect dengan parameter success ke halaman utama
-            return redirect(url_for('homeadmin', success='true'))
+            # Redirect dengan parameter success ke halaman tambahruang
+            return redirect(url_for('tambah_ruang', success='true'))
 
         except Exception as e:
             print(f"ERROR: {e}")
             flash("Terjadi kesalahan saat menambahkan ruangan.", "error")
             return redirect(url_for('tambah_ruang'))
 
-    return render_template('tambah_ruang.html')
+    # Cek parameter success
+    success = request.args.get('success')
+    return render_template('tambahruang.html', success=success)
+
+
+@app.route('/edit_ruang/<int:id_ruang>', methods=['GET', 'POST'])
+def edit_ruang(id_ruang):
+    """Edit data ruangan."""
+    if 'admin' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        # Ambil data dari form
+        nama_ruang = request.form.get('nama_ruang')
+        kapasitas = request.form.get('kapasitas')
+        deskripsi = request.form.get('deskripsi')
+        iframe = request.form.get('iframe')
+        fasilitas = request.form.get('fasilitas')
+        img = request.files.get('img')
+
+        # Validasi input
+        if not (nama_ruang and kapasitas and deskripsi and iframe and fasilitas):
+            flash("Semua field harus diisi!", "error")
+            return redirect(url_for('edit_ruang', id_ruang=id_ruang))
+
+        # Simpan file gambar jika ada
+        filename = None
+        if img and img.filename != "":
+            # Path ke folder static/img
+            upload_folder = os.path.join('static', 'img')
+            os.makedirs(upload_folder, exist_ok=True)  # Buat folder jika belum ada
+
+            # Simpan file gambar
+            filename = img.filename
+            img_path = os.path.join(upload_folder, filename)
+            img.save(img_path)
+
+        try:
+            # Update data di database
+            if img and img.filename != "":
+                cursor.execute("""
+                    UPDATE tb_ruang
+                    SET nama_ruang = %s, kapasitas = %s, deskripsi = %s, iframe = %s, fasilitas = %s, img = %s
+                    WHERE id_ruang = %s
+                """, (nama_ruang, kapasitas, deskripsi, iframe, fasilitas, filename, id_ruang))
+            else:
+                cursor.execute("""
+                    UPDATE tb_ruang
+                    SET nama_ruang = %s, kapasitas = %s, deskripsi = %s, iframe = %s, fasilitas = %s
+                    WHERE id_ruang = %s
+                """, (nama_ruang, kapasitas, deskripsi, iframe, fasilitas, id_ruang))
+
+            conn.commit()
+            flash("Ruangan berhasil diperbarui!", "success")
+        except Exception as e:
+            print(f"ERROR: {e}")
+            flash("Terjadi kesalahan saat memperbarui ruangan.", "error")
+        finally:
+            cursor.close()
+            conn.close()
+
+        # Redirect ke halaman yang sama dengan parameter success
+        return redirect(url_for('edit_ruang', id_ruang=id_ruang, success='true'))
+
+    # Ambil data ruangan berdasarkan ID
+    cursor.execute("SELECT * FROM tb_ruang WHERE id_ruang = %s", (id_ruang,))
+    room = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not room:
+        flash("Ruangan tidak ditemukan.", "error")
+        return redirect(url_for('gedungadmin'))
+
+    success = request.args.get('success')
+    return render_template('editruang.html', room=room, success=success)
+
+@app.route('/hapus_ruang', methods=['GET'])
+def hapus_ruang():
+    """Halaman daftar ruangan untuk dihapus."""
+    if 'admin' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id_ruang, nama_ruang, kapasitas, SUBSTRING(deskripsi, 1, 30) AS deskripsi FROM tb_ruang")
+    rooms = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return render_template('hapusruang.html', rooms=rooms)
+
+
+@app.route('/delete_ruang/<int:id_ruang>', methods=['POST'])
+def delete_ruang(id_ruang):
+    """Menghapus ruangan dari database."""
+    if 'admin' not in session:
+        return redirect(url_for('login'))
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tb_ruang WHERE id_ruang = %s", (id_ruang,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        flash("Ruangan berhasil dihapus.", "success")
+    except Exception as e:
+        print(f"ERROR: {e}")
+        flash("Terjadi kesalahan saat menghapus ruangan.", "error")
+
+    return redirect(url_for('hapus_ruang'))
 
 
 

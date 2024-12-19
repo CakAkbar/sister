@@ -116,7 +116,8 @@
             text-align: center;
             opacity: 0; /* Sembunyikan teks awalnya */
             transition: opacity 0.3s ease-in-out; /* Animasi untuk efek muncul */
-            pointer-events: none; /* Agar teks tidak menghalangi klik */
+            pointer-events: auto; /* Mengaktifkan klik */
+            text-decoration: none; /* Menghapus underline */
         }
         
         .card-img-wrapper:hover img {
@@ -144,7 +145,7 @@
                 <div class="card card-custom">
                   <div class="card-img-wrapper">
                       <img src="../static/img/{{ room.img }}" class="card-img-top" alt="Gambar {{ room.nama_ruang }}">
-                      <div class="overlay-text">Klik untuk edit Ruangan</div>
+                      <a href="{{ url_for('edit_ruang', id_ruang=room.id_ruang) }}" class="overlay-text">Klik untuk edit Ruangan</a>
                   </div>
                   <div class="card-body">
                       <h5 class="card-title">{{ room.nama_ruang }}</h5>
