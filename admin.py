@@ -31,7 +31,7 @@ def login():
     return render_template('loginadmin.html')
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logoutadmin', methods=['GET'])
 def logout():
     """Logout pengguna."""
     session.clear()
@@ -61,11 +61,21 @@ def homeadmin():
     cursor.execute("SELECT * FROM tb_form")
     forms = cursor.fetchall()
 
+    # Hitung jumlah status Pending
+    cursor.execute("SELECT COUNT(*) AS pending_count FROM tb_form WHERE status = 'Pending'")
+    pending = cursor.fetchone()['pending_count']
+    
+    cursor.execute("SELECT COUNT(*) AS tolak_count FROM tb_form WHERE status = 'Ditolak'")
+    tolak = cursor.fetchone()['tolak_count']
+    
+    cursor.execute("SELECT COUNT(*) AS terima_count FROM tb_form WHERE status = 'Diterima'")
+    terima = cursor.fetchone()['terima_count']
+
     cursor.close()
     conn.close()
 
     # Kirim data ke template
-    return render_template('indexadmin.html', admin_name=admin['username'], forms=forms)
+    return render_template('indexadmin.html', admin_name=admin['username'], forms=forms, pending=pending, tolak=tolak, terima=terima)
 
 
 @app.route('/update_status', methods=['POST'])
@@ -114,6 +124,81 @@ def serve_uploads(filename):
         return send_from_directory(UPLOAD_FOLDER, filename)
     except FileNotFoundError:
         abort(404)
+
+@app.route('/gedungadmin', methods=['GET'])
+def gedungadmin():
+    """Halaman daftar ruangan."""
+    if 'admin' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Ambil data dari tb_ruang
+    cursor.execute("SELECT * FROM tb_ruang")
+    rooms = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    # Kirim data ke template
+    return render_template('gedungadmin.html', rooms=rooms)
+
+
+@app.route('/tambah_ruang', methods=['GET', 'POST'])
+def tambah_ruang():
+    """Menambahkan ruangan baru ke dalam database."""
+    if 'admin' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        # Ambil data dari form
+        nama_ruang = request.form.get('nama_ruang')
+        kapasitas = request.form.get('kapasitas')
+        deskripsi = request.form.get('deskripsi')
+        iframe = request.form.get('iframe')
+        fasilitas = request.form.get('fasilitas')
+        img = request.files.get('img')
+
+        # Validasi input
+        if not (nama_ruang and kapasitas and deskripsi and iframe and fasilitas and img):
+            flash("Semua field harus diisi!", "error")
+            return redirect(url_for('tambah_ruang'))
+
+        # Simpan file gambar
+        filename = None
+        if img:
+            # Path ke folder static/img
+            upload_folder = os.path.join('static', 'img')
+            os.makedirs(upload_folder, exist_ok=True)  # Buat folder jika belum ada
+
+            # Simpan file gambar
+            filename = img.filename
+            img_path = os.path.join(upload_folder, filename)
+            img.save(img_path)
+
+        try:
+            # Simpan data ke database
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO tb_ruang (nama_ruang, kapasitas, deskripsi, iframe, fasilitas, img)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (nama_ruang, kapasitas, deskripsi, iframe, fasilitas, filename))
+            conn.commit()
+
+            flash("Ruangan berhasil ditambahkan!", "success")
+            cursor.close()
+            conn.close()
+        except Exception as e:
+            print(f"ERROR: {e}")
+            flash("Terjadi kesalahan saat menambahkan ruangan.", "error")
+            return redirect(url_for('tambah_ruang'))
+
+        return redirect(url_for('gedungadmin'))
+
+    return render_template('tambah_ruang.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=6969)

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Gedung</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: #fff;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero-btn {
+            background-color: #ffd700;
+            border: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hero-btn:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Card Modern */
+        .card-custom {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            background-color:rgb(237, 237, 250);
+        }
+
+        .card-custom:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .badge-custom {
+            background-color: #6e8efb;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+
+        .read-more {
+            color: #6e8efb;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #a777e3;
+        }
+        .no-decoration {
+            color: inherit; /* Menggunakan warna teks default elemen induk */
+            text-decoration: none; /* Menghapus underline */
+        }
+    
+        .no-decoration:hover {
+            color: inherit; /* Tetap warna default saat hover */
+            text-decoration: none; /* Menghindari underline muncul saat hover */
+        }
+
+        html, body {
+          height: 100%;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+        }
+    
+        .container {
+            flex: 1; /* Membuat konten mengambil ruang yang tersisa */
+        }
+    
+        footer {
+            position: relative;
+            width: 100%;
+        }
+        .card-img-wrapper {
+          position: relative;
+          overflow: hidden; /* Pastikan elemen teks tetap di dalam gambar */
+        }
+        
+        .card-img-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: filter 0.3s ease-in-out; /* Animasi untuk efek gelap */
+        }
+        
+        .card-img-wrapper .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.6); /* Latar belakang transparan */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0; /* Sembunyikan teks awalnya */
+            transition: opacity 0.3s ease-in-out; /* Animasi untuk efek muncul */
+            pointer-events: none; /* Agar teks tidak menghalangi klik */
+        }
+        
+        .card-img-wrapper:hover img {
+            filter: brightness(50%); /* Buat gambar lebih gelap */
+        }
+        
+        .card-img-wrapper:hover .overlay-text {
+            opacity: 1; /* Tampilkan teks saat hover */
+        }
+      
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    {% include 'navbaradmin.html' %}
+    <!-- Hero Section -->
+
+    <!-- Cards Section -->
+    <div class="container py-5">
+        <h2 class="text-center mb-4 fw-bold">Daftar Semua Gedung / Ruangan Kampus</h2>
+        <div class="row g-4">
+            <!-- Card 1: Gedung Cakra -->
+            {% for room in rooms %}
+              <div class="col-md-4">
+                <div class="card card-custom">
+                  <div class="card-img-wrapper">
+                      <img src="../static/img/{{ room.img }}" class="card-img-top" alt="Gambar {{ room.nama_ruang }}">
+                      <div class="overlay-text">Klik untuk edit Ruangan</div>
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title">{{ room.nama_ruang }}</h5>
+                      <h6 class="card-subtitle mb-2">Kapasitas {{ room.kapasitas }} Orang</h6>
+                      <p class="card-text">{{ room.deskripsi | truncate(150, True) }}</p>
+                      <h6>Fasilitas:</h6>
+                      <ul>
+                          {% for fasilitas in room.fasilitas.split(',') %}
+                          <li>{{ fasilitas.strip() }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+                </div>
+              
+              </div>
+            
+            {% endfor %}
+
+
+
+
+
+            <!-- Card 2: Gedung Pertemuan (GP) -->
+            
+
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    {% include 'footeradmin.html' %}
+    
+
+
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

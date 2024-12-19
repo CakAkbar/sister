@@ -43,7 +43,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Pending Requests</h5>
                   <p class="card-text">
-                    Total Pending: <span id="pendingCount">0</span>
+                    Total Pending: {{ pending }}
                   </p>
                 </div>
               </div>
@@ -52,14 +52,14 @@
           <div class="col-md-4">
             <button
               class="btn btn-success w-100 card-hover"
-              onclick="showTable('accepted')"
+              onclick="showTable('diterima')"
             >
               <div class="card text-white bg-success mb-3">
                 <div class="card-header">Accepted</div>
                 <div class="card-body">
                   <h5 class="card-title">Accepted Requests</h5>
                   <p class="card-text">
-                    Total Accepted: <span id="acceptedCount">0</span>
+                    Total Accepted: {{ terima }}
                   </p>
                 </div>
               </div>
@@ -68,14 +68,14 @@
           <div class="col-md-4">
             <button
               class="btn btn-warning w-100 card-hover"
-              onclick="showTable('rejected')"
+              onclick="showTable('ditolak')"
             >
               <div class="card text-white bg-warning mb-3">
                 <div class="card-header">Rejected</div>
                 <div class="card-body">
                   <h5 class="card-title">Rejected Requests</h5>
                   <p class="card-text">
-                    Total Rejected: <span id="rejectedCount">0</span>
+                    Total Rejected: {{ tolak }}
                   </p>
                 </div>
               </div>
@@ -174,6 +174,8 @@
         </div>
       </div>
     </div>
+    {% include 'footeradmin.html' %}
+
 
 
     <script>
@@ -186,19 +188,9 @@
         const acceptButtons = document.querySelectorAll(".accept-btn");
         const rejectButtons = document.querySelectorAll(".reject-btn");
         const viewDocButtons = document.querySelectorAll(".view-doc-btn");
-        const pendingCountElement = document.getElementById("pendingCount");
-        const acceptedCountElement = document.getElementById("acceptedCount");
-        const rejectedCountElement = document.getElementById("rejectedCount");
         const searchInput = document.getElementById("searchInput");
         const tableRows = document.querySelectorAll("#approvalTable tr");
 
-        let pendingCount = document.querySelectorAll(".status").length;
-        let acceptedCount = 0;
-        let rejectedCount = 0;
-
-        pendingCountElement.textContent = pendingCount;
-        acceptedCountElement.textContent = acceptedCount;
-        rejectedCountElement.textContent = rejectedCount;
 
         acceptButtons.forEach((button) => {
           button.addEventListener("click", function (e) {
