@@ -1,8 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, session, flash
-from koneksi import get_db_connection
+import os
+from flask import Flask, request, render_template, redirect, url_for, session, flash, send_from_directory
+from koneksi import get_db_connection, abort
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
+
+UPLOAD_FOLDER = os.path.abspath("../uploads")  # Path absolut ke folder uploads
 
 @app.route('/login99', methods=['GET', 'POST'])
 def login():
@@ -104,6 +107,13 @@ def update_status():
         flash("Terjadi kesalahan saat memperbarui status.", "error")
 
     return redirect(url_for('homeadmin'))
+
+@app.route('/uploads/<filename>')
+def serve_uploads(filename):
+    try:
+        return send_from_directory(UPLOAD_FOLDER, filename)
+    except FileNotFoundError:
+        abort(404)
 
 if __name__ == '__main__':
     app.run(debug=True, port=6969)
